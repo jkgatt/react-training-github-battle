@@ -10,8 +10,7 @@ function getProfile(username) {
 }
 
 function getRepos(username){
-    return axios.get('https://api.github.com/users/' + username + '/repos'+ params
-            + '&per_page=100');
+    return axios.get('https://api.github.com/users/' + username + '/repos'+ params);
 }
 
 function getStarCount(repos) {
@@ -46,7 +45,7 @@ function getUserData(player) {
     })
 }
 
-function sortPlayers(player) {
+function sortPlayers(players) {
     return players.sort((a,b) => {
         return b.score - a.score;
     });
@@ -65,5 +64,7 @@ module.exports = {
         return axios.all(
             players.map(getUserData)
         )
+        .then(sortPlayers)
+        .catch(handleError)
     }
 }
